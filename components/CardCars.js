@@ -1,21 +1,45 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Image, FlatList } from 'react-native'
 import React, { useState } from 'react'
 
 const CardCars = () => {
-  const [isPressed, setIsPressed] = useState(false);
+  const [isPressed, setIsPressed] = useState([]);
 
-  const ButtonHandler = () => {
-    setIsPressed(!isPressed);
+  const cardsData = [
+    { id: '1', name: 'Tesla', image: require('../assets/img/tesla.jpg') },
+    { id: '2', name: 'Mercedes', image: require('../assets/img/mercedes.png') },
+    { id: '3', name: 'Ferrari', image: require('../assets/img/ferrari.png') },
+    { id: '4', name: 'Bugatti', image: require('../assets/img/bugatti.png') },
+    { id: '5', name: 'BMW', image: require('../assets/img/bmw.png') },
+    { id: '6', name: 'Lamborghini', image: require('../assets/img/lamborghini.png') },
+  ];
+
+  const ButtonHandler = (index) => {
+    if (isPressed.includes(index)) {
+      setIsPressed(isPressed.filter(i => i !== index));
+    } else {
+      setIsPressed([...isPressed, index]);
+    }
   };
 
+  const renderItem = ({ item, index }) => (
+    <TouchableOpacity
+      style={[styles.button, isPressed.includes(index) && styles.buttonPressed]}
+      onPress={() => ButtonHandler(index)}
+    >
+      <Image source={item.image} style={styles.image} />
+      <Text style={[styles.text, isPressed.includes(index) && styles.textPressed]}>{item.name}</Text>
+    </TouchableOpacity>
+  );
+
   return (
-    <View>
-      <TouchableOpacity style={[styles.button, isPressed && styles.buttonPressed]} onPress={ButtonHandler}>
-        <Image 
-          source={require('../assets/tesla.jpg')} // Reemplaza por la URL de tu imagen
-          style={styles.image}/>
-        <Text>Tesla</Text>
-      </TouchableOpacity>
+    <View style={styles.container}>
+      <FlatList
+        data={cardsData}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        numColumns={2}
+        scrollEnabled={false}
+      />
     </View>
   )
 }
@@ -23,20 +47,34 @@ const CardCars = () => {
 export default CardCars
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center'
+  },
   button: {
     backgroundColor: '#fff',
-    padding: 10,
+    marginVertical: 5,
+    marginRight: 10,
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: 'grey',
-    alignItems: 'center'
+    borderColor: '#d3d3d3',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 160,
+    width: 185
   },
   buttonPressed: {
-    borderColor: 'green',
+    borderColor: '#9acd32',
   },
   image: {
-    width: 50,
-    height: 50,
-    resizeMode: 'contain',
+    width: 100,
+    height: 80,
+    resizeMode: 'contain'
+  },
+  text: {
+    color: '#000',
+  },
+  textPressed: {
+    color: '#9acd32',
   }
-})
+});

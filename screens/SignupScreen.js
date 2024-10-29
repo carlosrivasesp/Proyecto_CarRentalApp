@@ -38,7 +38,7 @@ const SignUpScreen = () => {
       <TouchableOpacity>
         <Text style={styles.forgot}>Forgot Password?</Text>
       </TouchableOpacity>
-      <PrimaryButton onPressButton={handleSignUp}>SignUp</PrimaryButton>
+      <PrimaryButton onPressButton={handleLoginNavigation}>SignUp</PrimaryButton>
       <Text style={styles.gristext}>Or continue with social account</Text>
       <View style={styles.socialButtonsContainer}>
         <SocialButton

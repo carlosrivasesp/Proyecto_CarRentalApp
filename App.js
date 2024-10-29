@@ -50,7 +50,7 @@ function HomeTabs() {
     </Tab.Navigator>
   );
 }
-
+/*screenOptions={{headerShown: false}}*/
 export default function App() {
   return (
     <NavigationContainer>
